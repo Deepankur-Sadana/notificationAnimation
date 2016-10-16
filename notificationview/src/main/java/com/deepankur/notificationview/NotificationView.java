@@ -3,6 +3,7 @@ package com.deepankur.notificationview;
 import android.content.Context;
 import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -52,6 +53,8 @@ public class NotificationView extends NestedScrollView {
         public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
             if (mOnScrollChangeListener != null)
                 mOnScrollChangeListener.onScrollChange(v, scrollX, scrollY, oldScrollX, oldScrollY);
+
+            Log.d(TAG, "onScrollChange: scrollY " + scrollY);
             notifyScrolled(scrollY, oldScrollY);
         }
     };
@@ -90,8 +93,12 @@ public class NotificationView extends NestedScrollView {
 
 
     public void addNotificationChild(View view) {
-        normalChildHolder.addView(view);
+        tabsHolder.addView(view, 0);
         addMarginsToViews(view);
+    }
+
+    public void addNormalChild(View view) {
+        this.normalChildHolder.addView(view);
     }
 
     private void addMarginsToViews(View itemView) {
