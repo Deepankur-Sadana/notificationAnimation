@@ -25,6 +25,7 @@ public class NotificationView extends NestedScrollView {
     //total height is taken as 80 dp and includes show of 24dp (8 dp at top and 24 dp at bottom)
     private int EFFECTIVE_TAB_HEIGHT = 56;
     private int TOTAL_TAB_HEIGHT = 80;
+    private int scrollTo;
 
 
     public NotificationView(Context context) {
@@ -163,7 +164,7 @@ public class NotificationView extends NestedScrollView {
         return translation;
     }
 
-    private final int OVERLAP_DISTANCE = 6;
+    private final int OVERLAP_DISTANCE = 6;//in dps
 
     private int getCutOffTranslationForTab(int index) {
         if (index == 0)
@@ -172,4 +173,27 @@ public class NotificationView extends NestedScrollView {
     }
 
 
+    private int getScrollForContractingTheStacks() {
+        int displacementFromTop = Utils.convertDpToPixels(context, EFFECTIVE_TAB_HEIGHT + (tabsHolder.getChildCount() - 2) * OVERLAP_DISTANCE + 14);
+        Log.d(TAG, "getScrollForContractingTheStacks: displacement from top " + displacementFromTop + " totalHeight " + notificationTabsBackGroundFrame.getMeasuredHeight() + " count " + tabsHolder.getChildCount());
+        return notificationTabsBackGroundFrame.getMeasuredHeight() - displacementFromTop;
+    }
+
+    private Runnable scrollRunnable = new Runnable() {
+        @Override
+        public void run() {
+            smoothScrollTo(0, scrollTo);
+        }
+    };
+
+    public void contractStacks() {
+        scrollTo = getScrollForContractingTheStacks();
+        Log.d(TAG, "contractStacks: " + scrollTo);
+        this.postDelayed(scrollRunnable, 100);
+    }
+
+    public void expandStacks() {
+        scrollTo = 0;
+        this.postDelayed(scrollRunnable, 100);
+    }
 }
