@@ -9,4 +9,4 @@
 .externalNativeBuild
 *.iml
 .idea
-.asc
+*.asc
