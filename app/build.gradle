@@ -28,4 +28,6 @@ dependencies {
 //    compile project('notificationview')
     testCompile 'junit:junit:4.12'
     compile project(path: ':notificationview')
+//    compile 'com.deepankur.notificationview:notificationanimation:1.0'
+
 }
